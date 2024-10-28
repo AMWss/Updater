@@ -2,7 +2,7 @@ name: Frequent Daily Commit
 
 on:
   schedule:
-    - cron: '0 */4 * * *'  # 每4小时运行一次
+    - cron: '0 */1 * * *'  # 每4小时运行一次
   workflow_dispatch:
 
 permissions:
@@ -26,8 +26,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "actions@github.com"
+          git config --local user.name "AMWss"
+          git config --local user.email "2172888206@qq.com"
           DATE=$(date +%Y%m%d_%H%M)
           git add "${DATE}.txt"
           git commit -m "自动提交：添加 ${DATE}.txt"
