@@ -1,27 +1,34 @@
-name: Daily Commit
+name: Frequent Daily Commit
 
 on:
   schedule:
-    - cron: '0 21 * * *'  # 每天 21:00 UTC，您可以根据需要修改
+    - cron: '0 */4 * * *'  # 每4小时运行一次
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   commit:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Create file with current time
         run: |
-          DATE=$(date +%Y%m%d)
+          DATE=$(date +%Y%m%d_%H%M)  # 包含小时分钟以区分文件
           TIME=$(date +%H:%M)
           echo "$TIME" > "${DATE}.txt"
+          echo "Created file: ${DATE}.txt"
+          ls -la
 
       - name: Commit and push changes
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
+          DATE=$(date +%Y%m%d_%H%M)
           git add "${DATE}.txt"
           git commit -m "自动提交：添加 ${DATE}.txt"
           git push
