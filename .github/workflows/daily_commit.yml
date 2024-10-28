@@ -18,13 +18,17 @@ jobs:
           DATE=$(date +%Y%m%d)
           TIME=$(date +%H:%M)
           echo "$TIME" > "${DATE}.txt"
-          echo "Created file: ${DATE}.txt"
+          echo "Created file: ${DATE}.txt"  # 打印创建的文件名
           ls -la  # 列出当前目录中的所有文件
+
+      - name: Show current directory
+        run: pwd  # 打印当前目录
 
       - name: Commit and push changes
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
+          DATE=$(date +%Y%m%d)  # 再次获取当前日期
           git add "${DATE}.txt"  # 确保使用正确的文件名
           git commit -m "自动提交：添加 ${DATE}.txt"
           git push
