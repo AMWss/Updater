@@ -2,7 +2,7 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '0 21 * * *'  # 每天 21:00 UTC，您可以根据需要修改
+    - cron: '0 0 * * *'  # 每天 20:00 UTC，您可以根据需要修改
 
 jobs:
   commit:
