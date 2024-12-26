@@ -2,7 +2,7 @@ name: Frequent Daily Commit
 
 on:
   schedule:
-    - cron: '0 */1 * * *'  # 每4小时运行一次
+    - cron: '0 */4 * * *'  # 每4小时运行一次
   workflow_dispatch:
 
 permissions:
@@ -34,3 +34,34 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete half of the files every other day
+        #if: ${{ github.event.schedule }} # 只有在定时任务中执行此步骤
+        run: |
+          # 检查是否是需要删除文件的时间
+          DAY=$(date +%d)  # 获取当前日期的天
+          if [ $((DAY % 2)) -eq 0 ]; then
+            echo "今天需要删除一半的文件。"
+            
+            # 获取所有文件并计算数量
+            FILES=($(ls *.txt))
+            TOTAL_FILES=${#FILES[@]}
+            
+            # 计算需要删除的文件数量
+            DELETE_COUNT=$((TOTAL_FILES / 2))
+            echo "总文件数量: $TOTAL_FILES"
+            echo "需要删除的文件数量: $DELETE_COUNT"
+            
+            # 删除文件
+            for ((i = 0; i < DELETE_COUNT; i++)); do
+              echo "Deleting: ${FILES[i]}"
+              rm -f "${FILES[i]}"
+            done
+            
+            # 提交更改
+            git add .
+            git commit -m "自动提交：删除一半的文件"
+            git push
+          else
+            echo "今天不需要删除文件。"
+          fi
