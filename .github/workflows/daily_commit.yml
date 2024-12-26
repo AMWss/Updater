@@ -36,7 +36,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete half of the files every other day
-        #if: ${{ github.event.schedule }} # 只有在定时任务中执行此步骤
+        if: ${{ github.event.schedule }} # 只有在定时任务中执行此步骤
         run: |
           # 检查是否是需要删除文件的时间
           DAY=$(date +%d)  # 获取当前日期的天
