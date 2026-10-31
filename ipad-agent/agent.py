@@ -188,7 +188,7 @@ def verify(task):
     if action == "package_status" and (not isinstance(p["package"], str) or not PACKAGE_RE.fullmatch(p["package"])):
         raise ValueError("软件包名称无效")
     if action == "write_text":
-        if not isinstance(p["name"], str) or not re.fullmatch(r"[A-Za-z0-9_.-]{1,60}\\.(txt|md)", p["name"]):
+        if not isinstance(p["name"], str) or not re.fullmatch(r"[A-Za-z0-9_.-]{1,60}\.(txt|md)", p["name"]):
             raise ValueError("只能在工作目录创建简单 txt/md 文件")
         if not isinstance(p["text"], str) or len(p["text"].encode("utf-8")) > 10000:
             raise ValueError("文本不得超过 10KB")
